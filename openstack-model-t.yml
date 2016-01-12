@@ -44,3 +44,23 @@
             RETVAL=$?
             kill $SSH_AGENT_PID
             exit $RETVAL
+- job:
+    name: openstack-model-t-full-master
+    project-type: freestyle
+    description: 'Run the full test on master for openstack-model-t'
+    scm:
+    - git:
+        url: https://github.com/chef-partners/openstack-model-t.git
+        refspec: master
+    builders:
+        - shell: |
+            . /var/lib/jenkins/keys
+            wget https://opscode-omnibus-packages.s3.amazonaws.com/debian/6/x86_64/chefdk_0.10.0-1_amd64.deb
+            sudo dpkg -i chefdk_0.10.0-1_amd64.deb
+            eval `ssh-agent`
+            ssh-add
+            chef exec kitchen test
+            chef exec kitchen list
+            RETVAL=$?
+            kill $SSH_AGENT_PID
+            exit $RETVAL

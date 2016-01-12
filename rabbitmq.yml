@@ -1,0 +1,36 @@
+- job:
+    name: rabbitmq-travis
+    project-type: freestyle
+    description: 'Run the general travis test for rabbitmq'
+    scm:
+    - git:
+        skip-tag: false
+        url: https://github.com/jjasghar/rabbitmq.git
+    builders:
+        - shell: |
+            rvm use 2.1.1@rabbitmq
+            set -e
+            bundle install
+            bundle exec rake travis
+- job:
+    name: rabbitmq-full-digitalocean
+    project-type: freestyle
+    description: 'Run the full suite on digitalocean rabbitmq'
+    scm:
+    - git:
+        skip-tag: false
+        url: https://github.com/jjasghar/rabbitmq.git
+    builders:
+        - shell: |
+            . /var/lib/jenkins/keys
+            wget https://opscode-omnibus-packages.s3.amazonaws.com/debian/6/x86_64/chefdk_0.10.0-1_amd64.deb
+            sudo dpkg -i chefdk_0.10.0-1_amd64.deb
+            chef exec bundle install
+            export KITCHEN_YAML=.kitchen.cloud.yml
+            eval `ssh-agent`
+            ssh-add
+            chef exec kitchen test -c 5
+            chef exec kitchen list
+            RETVAL=$?
+            kill $SSH_AGENT_PID
+            exit $RETVAL

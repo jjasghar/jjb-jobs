@@ -1,37 +1,35 @@
 - job:
-    name: openstack-model-t-rubocop
+    name: pxe_dust-rubocop
     project-type: freestyle
-    description: 'Run the rubocop for openstack-model-t'
+    description: 'Run the rubocop for pxe_dust'
     scm:
     - git:
         skip-tag: false
-        url: https://github.com/chef-partners/openstack-model-t.git
+        url: https://github.com/jjasghar/pxe_dust-cookbook.git
     builders:
         - shell: |
             wget https://opscode-omnibus-packages.s3.amazonaws.com/debian/6/x86_64/chefdk_0.10.0-1_amd64.deb
             sudo dpkg -i chefdk_0.10.0-1_amd64.deb
             chef exec rubocop .
 - job:
-    name: openstack-model-t-foodcritic
+    name: pxe_dust-foodcritic
     project-type: freestyle
-    description: 'Run the foodcritic for openstack-model-t'
+    description: 'Run the foodcritic for pxe_dust'
     scm:
     - git:
-        skip-tag: false
-        url: https://github.com/chef-partners/openstack-model-t.git
+        url: https://github.com/jjasghar/pxe_dust-cookbook.git
     builders:
         - shell: |
             wget https://opscode-omnibus-packages.s3.amazonaws.com/debian/6/x86_64/chefdk_0.10.0-1_amd64.deb
             sudo dpkg -i chefdk_0.10.0-1_amd64.deb
             chef exec foodcritic -f correctness .
 - job:
-    name: openstack-model-t-full-kilo
+    name: pxe_dust-full
     project-type: freestyle
-    description: 'Run the full test on kilo for openstack-model-t'
+    description: 'Run the full test for pxe_dust'
     scm:
     - git:
-        url: https://github.com/chef-partners/openstack-model-t.git
-        refspec: 52abc155657d65c43d80416cc0d76421c47fd38e
+        url: https://github.com/jjasghar/pxe_dust-cookbook.git
     builders:
         - shell: |
             . /var/lib/jenkins/keys

@@ -35,9 +35,11 @@
             . /var/lib/jenkins/keys
             wget https://opscode-omnibus-packages.s3.amazonaws.com/debian/6/x86_64/chefdk_0.10.0-1_amd64.deb
             sudo dpkg -i chefdk_0.10.0-1_amd64.deb
+            export KITCHEN_YAML=.kitchen.cloud.yml
             eval `ssh-agent`
             ssh-add
-            chef exec kitchen test
+            chef exec kitchen test server-ubuntu-12-04-x64
+            chef exec kitchen test server-ubuntu-14-04-x64
             chef exec kitchen list
             RETVAL=$?
             kill $SSH_AGENT_PID

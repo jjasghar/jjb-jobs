@@ -1,0 +1,14 @@
+- job:
+    # Specify a job name
+    name: Basic example
+    project-type: freestyle
+    # A nice description of what this job does
+    description: 'A basic example of a `jjb` job that echos "Hello world and cat's out /etc/password"'
+    builders:
+        - shell: |
+            echo 'Hello world!'
+            cat /etc/passwd
+            !include-raw './scripts/job.sh'
+     # Automatically start (trigger) the job's build at 12:00 and 15:00 on every day.
+     triggers:
+        - timed: '0 12,15 * * *'

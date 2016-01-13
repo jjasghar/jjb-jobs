@@ -39,6 +39,7 @@
             sudo dpkg -i chefdk_0.10.0-1_amd64.deb
             eval `ssh-agent`
             ssh-add
+            export KITCHEN_YAML=.kitchen.cloud.yml
             chef exec kitchen test
             chef exec kitchen list
             RETVAL=$?
@@ -59,6 +60,7 @@
             sudo dpkg -i chefdk_0.10.0-1_amd64.deb
             eval `ssh-agent`
             ssh-add
+            export KITCHEN_YAML=.kitchen.cloud.yml
             chef exec kitchen test
             chef exec kitchen list
             RETVAL=$?
